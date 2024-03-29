@@ -71,45 +71,45 @@ def set_template_vals(template):
       print("The preset '" + preset + "' is not valid. Proceeding with the 'STD' preset...")
       set_params(STD)
 
-def set_alternating(array):
-  new_array = []
-  t = 0
-  for word in array:
-    if t == 0:
-      new_word = word.upper
-      t = 1
-    else:
-      new_word = word.lower
+def set_case_trans(case_trans, wordlist):
+  new_wordlist = []
+  match case_trans:
+    case 'alternating':
       t = 0
-    new_array.append(new_word)
-  return new_array
-
-def set_upper(array):
-  new_array = []
-  for word in array:
-    new_word = word.upper
-    new_array.append(new_word)
-  return new_array
-
-def set_lower(array):
-  new_array = []
-  for word in array:
-    new_word = word.lower
-    new_array.append(new_word)
-  return new_array
-
-def set_random(array, chance):
-  new_array = []
-  for i, c in enumerate(array):
-    new_array.append(c.upper() if random.random() < chance else c)
-  return new_array
-
-def set_captialize(array):
-  new_array = []
-  for word in array:
-    new_word = word.capitalize
-    new_array.append(new_word)
-  return new_array
+      for word in wordlist:
+        if t == 0:
+          new_word = word.upper()
+          t = 1
+        else:
+          new_word = word.lower()
+          t = 0
+        new_wordlist.append(new_word)
+    case 'upper':
+      for word in wordlist:
+        new_word = word.upper()
+        new_wordlist.append(new_word)
+    case 'lower':
+      for word in wordlist:
+        new_word = word.lower()
+        new_wordlist.append(new_word)
+    case 'random':
+      wordlist = [ 'firstword', 'secondword', 'thirdword' ]
+      for word in wordlist:
+        new_word = ""
+        for letter in word:
+          docap = random.choice('12')
+          if docap == '1':
+            new_word = new_word + letter.upper()
+          else:
+            new_word = new_word + letter.lower()
+        new_wordlist.append(new_word)
+    case 'capitalize':
+      for word in wordlist:
+        new_word = word.capitalize()
+        new_wordlist.append(new_word)
+    case 'as-is':
+      new_wordlist = wordlist
+  return new_wordlist
 
 def get_separator(separators):
   separator = random.choice(separators)
@@ -268,6 +268,7 @@ if args.padcharspre:
 
 if args.padcharspost:
   padding_chars_post = args.padcharspost
+
 
 if DEBUG == 1:
   sys.stderr.write("Selected dictionary is: " + dictionary + ".\n")
