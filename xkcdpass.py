@@ -269,7 +269,6 @@ if args.padcharspre:
 if args.padcharspost:
   padding_chars_post = args.padcharspost
 
-
 if DEBUG == 1:
   sys.stderr.write("Selected dictionary is: " + dictionary + ".\n")
   sys.stderr.write("Selected template is: " + template + ".\n")
@@ -287,3 +286,14 @@ if DEBUG == 1:
   sys.stderr.write("padding_chars_pre is: " + str(padding_chars_pre) + ".\n")
   sys.stderr.write("padding_chars_post is: " + str(padding_chars_post) + ".\n")
 
+pcount = 1
+while pcount <= passcount:
+  if DEBUG == 1:
+    sys.stderr.write("Pass " + str(pcount) + " of " + str(passcount) + ".\n")
+  wordlist = get_wordlist(dictionary, word_len_min, word_len_max, num_words)
+  pcount += 1
+  transwordlist = set_case_trans(case_trans, wordlist)
+  if DEBUG == 1:
+    sys.stderr.write(transwordlist[0])
+    sys.stderr.write(transwordlist[1])
+    sys.stderr.write(transwordlist[2])
