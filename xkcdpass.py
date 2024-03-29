@@ -137,7 +137,7 @@ def find_dict():
       return file
 
 def get_wordlist(dictionary, min_length, max_length, num_words):
-  if min_lenght < 1:
+  if min_length < 1:
     sys.stderr.write("ERROR:The minimum length cannot be 0\n")
     sys.exit(1)
   if dictionary is None:
