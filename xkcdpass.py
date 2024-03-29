@@ -136,19 +136,19 @@ def find_dict():
     if os.path.isfile(file):
       return file
 
-def get_wordlist(dictionary, min_length, max_length, num_words):
-  if min_length < 1:
+def get_wordlist(dictionary, word_len_min, word_len_max, num_words):
+  if word_len_min < 1:
     sys.stderr.write("ERROR:The minimum length cannot be 0\n")
     sys.exit(1)
-  if dictionary is None:
-    dictionary = find_dict()
   words = []
-  regexp = re.compile("^{0}{{{1},{2}}}$".format('.', min_length, max_length))
+  regexp = re.compile("^{0}{{{1},{2}}}$".format('.', word_len_min, word_len_max))
   with open(dictionary) as wordlist:
     for line in wordlist:
       new_word = line.strip()
-      words.append(new_word)
-  wordlist = [rng().choice(words) for i in xrange(num_words)]
+      # Annoying, but go back and sanitize later, this works for English
+      if not "'" in new_word:
+        words.append(new_word)
+  wordlist = random.choices(words, k = num_words)
   return wordlist
 
 parser = argparse.ArgumentParser()
