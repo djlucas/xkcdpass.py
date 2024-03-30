@@ -89,15 +89,14 @@ def set_case_trans(case_trans, wordlist):
         new_word = word.lower()
         new_wordlist.append(new_word)
     case 'random':
-      wordlist = [ 'firstword', 'secondword', 'thirdword' ]
       for word in wordlist:
         new_word = ""
         for letter in word:
-          docap = random.choice('12')
-          if docap == '1':
-            new_word = new_word + letter.upper()
-          else:
+          docap = random.choice('01')
+          if docap == '0':
             new_word = new_word + letter.lower()
+          else:
+            new_word = new_word + letter.upper()
         new_wordlist.append(new_word)
     case 'capitalize':
       for word in wordlist:
