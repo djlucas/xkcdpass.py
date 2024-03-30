@@ -287,6 +287,7 @@ while pcount <= passcount:
     padnumpre = get_pad_digits(pad_digits_pre) + separator
   if pad_digits_post > 0:
     padnumpost = get_pad_digits(pad_digits_post)
+
   # Padding Characters
   if len(padding_chars) > 1:
     padchar = get_pad_char(padding_chars)
