@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import random
 import os
-import os.path
 import argparse
 import re
 import math
