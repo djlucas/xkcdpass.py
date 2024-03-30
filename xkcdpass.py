@@ -5,8 +5,6 @@ import argparse
 import math
 import sys
 
-DEBUG=0
-
 def set_template_vals(template):
   global num_words, word_len_min, word_len_max, case_trans
   global separators, pad_digits_pre, pad_digits_post
@@ -267,31 +265,8 @@ if args.padcharspre:
 if args.padcharspost:
   padding_chars_post = args.padcharspost
 
-if DEBUG == 1:
-  sys.stderr.write("Selected dictionary is: " + dictionary + ".\n")
-  sys.stderr.write("Selected template is: " + template + ".\n")
-  sys.stderr.write("passcount is: " + str(passcount) + "\n")
-  sys.stderr.write("num_words is: " + str(num_words) + ".\n")
-  sys.stderr.write("word_len_min is: " + str(word_len_min) + ".\n")
-  sys.stderr.write("word_len_max is: " + str(word_len_max) + ".\n")
-  sys.stderr.write("case_trans is: " + case_trans  + ".\n")
-  sys.stderr.write("separators is: " + separators + ".\n")
-  sys.stderr.write("pad_digits_pre is: " + str(pad_digits_pre) + ".\n")
-  sys.stderr.write("pad_digits_post is: " + str(pad_digits_post) + ".\n")
-  sys.stderr.write("padding_type is: " + padding_type + ".\n")
-  sys.stderr.write("pad_to_length is: " + str(pad_to_length) + ".\n")
-  sys.stderr.write("padding_chars is: " + padding_chars + ".\n")
-  sys.stderr.write("padding_chars_pre is: " + str(padding_chars_pre) + ".\n")
-  sys.stderr.write("padding_chars_post is: " + str(padding_chars_post) + ".\n")
-
 pcount = 1
 while pcount <= passcount:
-  if DEBUG == 1:
-    sys.stderr.write("Pass " + str(pcount) + " of " + str(passcount) + ".\n")
   wordlist = get_wordlist(dictionary, word_len_min, word_len_max, num_words)
   pcount += 1
   transwordlist = set_case_trans(case_trans, wordlist)
-  if DEBUG == 1:
-    sys.stderr.write(transwordlist[0])
-    sys.stderr.write(transwordlist[1])
-    sys.stderr.write(transwordlist[2])
