@@ -110,7 +110,7 @@ def get_separator(separators):
   separator = random.choice(separators)
   return separator
 
-def get_padding(padding_chars):
+def get_pad_char(padding_chars):
   padding_char = random.choice(padding_chars)
   return padding_char
 
