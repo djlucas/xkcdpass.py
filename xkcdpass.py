@@ -73,12 +73,12 @@ def set_case_trans(case_trans, wordlist):
     case 'alternating':
       t = 0
       for word in wordlist:
-        if t == 0:
+        if t == 1:
           new_word = word.upper()
-          t = 1
+          t = 0
         else:
           new_word = word.lower()
-          t = 0
+          t = 1
         new_wordlist.append(new_word)
     case 'upper':
       for word in wordlist:
