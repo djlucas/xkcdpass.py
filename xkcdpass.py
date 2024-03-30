@@ -322,6 +322,23 @@ if args.verbose:
 if args.debug:
   DEBUG = True
 
+if DEBUG == 1:
+  sys.stderr.write("Selected dictionary is: " + dictionary + ".\n")
+  sys.stderr.write("Selected template is: " + template + ".\n")
+  sys.stderr.write("passcount is: " + str(passcount) + "\n")
+  sys.stderr.write("num_words is: " + str(num_words) + ".\n")
+  sys.stderr.write("word_len_min is: " + str(word_len_min) + ".\n")
+  sys.stderr.write("word_len_max is: " + str(word_len_max) + ".\n")
+  sys.stderr.write("case_trans is: " + case_trans  + ".\n")
+  sys.stderr.write("separators is: " + separators + ".\n")
+  sys.stderr.write("pad_digits_pre is: " + str(pad_digits_pre) + ".\n")
+  sys.stderr.write("pad_digits_post is: " + str(pad_digits_post) + ".\n")
+  sys.stderr.write("padding_type is: " + padding_type + ".\n")
+  sys.stderr.write("pad_to_length is: " + str(pad_to_length) + ".\n")
+  sys.stderr.write("padding_chars is: " + padding_chars + ".\n")
+  sys.stderr.write("padding_chars_pre is: " + str(padding_chars_pre) + ".\n")
+  sys.stderr.write("padding_chars_post is: " + str(padding_chars_post) + ".\n\n")
+
 pcount = 1
 while pcount <= passcount:
 
