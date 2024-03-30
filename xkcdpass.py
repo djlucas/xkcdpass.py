@@ -7,6 +7,7 @@ import sys
 
 VERBOSE = False
 DEBUG = False
+ENTROPY = []
 
 def set_template_vals(template):
   global num_words, word_len_min, word_len_max, case_trans
@@ -148,6 +149,24 @@ def get_wordlist(dictionary, word_len_min, word_len_max, num_words):
             words.append(new_word)
   wordlist = random.choices(words, k = num_words)
   return wordlist
+
+def get_cryto_vlaue(passwd):
+  possible_symbols = 26
+  if case_trans != 'upper' or case_trans != 'lower':
+    possible_symbols = int(possible_symbols) + 26
+  if pad_digits_pre != 0 or pad_digits_post != 0:
+    possible_symbols = int(possible_symbols) + 10
+  if padding_chars != "" or separators != "":
+    comblist = padding_chars + separators
+    uniq = []
+    for symbol in comblist:
+      if not symbol in uniq:
+        uniq.append(symbol)
+    possible_symbols = int(possible_symbols) + int(len(uniq))
+  length = len(passwd)
+  bits = math.log2(possible_symbols ** length)
+  strength = round(bits)
+  return strength
 
 parser = argparse.ArgumentParser( prog = 'xkcdpass.py',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -371,3 +390,16 @@ while pcount <= passcount:
         count += 1
     tempout = tempout + padpost
   print(tempout)
+  if VERBOSE == True:
+    entropy = get_cryto_vlaue(tempout)
+    if DEBUG == True:
+      sys.stderr.write("Entropy: " + str(entropy) + " bits\n\n")
+    ENTROPY.append(entropy)
+
+if VERBOSE == True:
+  top = int(len(ENTROPY)) - 1
+  ENTROPY.sort()
+  mine = ENTROPY[0]
+  maxe = ENTROPY[top]
+  avge = sum(ENTROPY) / len(ENTROPY)
+  print("Entorpy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
