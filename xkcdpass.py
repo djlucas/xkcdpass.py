@@ -146,7 +146,30 @@ def get_wordlist(dictionary, word_len_min, word_len_max, num_words):
   wordlist = random.choices(words, k = num_words)
   return wordlist
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser( prog = 'xkcdpass.py',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description = '''xkcdpass.py uses a dictionary to generate stong but memorable passwords.''',
+        epilog = '''Examples:
+          xkcdpass.py --passcount 3 --numwords 3  \\
+                      --minlength 4 --maxlength 6 \\
+                      --casetransform capitalize  \\
+                      --separators '@%^&*_+~?'    \\
+                      --paddigitspre 0            \\
+                      --paddigitspost 0           \\
+                      --paddingtype fixed         \\
+                      --paddingchars '!@$%^&=~?'  \\
+                      --padtolength 0             \\
+                      --padcharspre 1             \\
+                      --padcharspost 1
+
+          xkcdpass.py -t STD
+
+          xkcdpass.py
+
+The above three commands all produce identicaly formatted output. The defualt
+template is the 'STD' template, which the first example provides in detail.
+If using a template, the template parameters are loaded fist, and any
+additional commandline arguments will override those in the template.''')
 parser.add_argument("-d", "--dictionary",
                     type=str,
                     help="optional wordlist (one word per line)",
