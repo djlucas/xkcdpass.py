@@ -5,6 +5,9 @@ import argparse
 import math
 import sys
 
+VERBOSE = False
+DEBUG = False
+
 def set_template_vals(template):
   global num_words, word_len_min, word_len_max, case_trans
   global separators, pad_digits_pre, pad_digits_post
@@ -234,6 +237,12 @@ parser.add_argument("-X", "--padcharspost",
                     type=int,
                     help="Number of padding chars at the end of the password",
                     metavar="NUM")
+parser.add_argument("-v", "--verbose",
+                    help="Print computed min/max/avg entropy to stdout",
+                    action="store_true")
+parser.add_argument("-D", "--debug",
+                    help="Print debug messages to stderr.",
+                    action="store_true")
 args = parser.parse_args()
 
 if args.dictionary:
@@ -249,7 +258,8 @@ else:
   template = 'STD'
 set_template_vals(template)
 
-passcount = args.passcount
+if args.passcount:
+  passcount = args.passcount
 
 if args.numwords:
   num_words = args.numwords
@@ -286,6 +296,12 @@ if args.padcharspre:
 
 if args.padcharspost:
   padding_chars_post = args.padcharspost
+
+if args.verbose:
+  VERBOSE = True
+
+if args.debug:
+  DEBUG = True
 
 pcount = 1
 while pcount <= passcount:
