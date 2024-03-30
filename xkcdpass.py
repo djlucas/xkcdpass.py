@@ -273,10 +273,61 @@ while pcount <= passcount:
   transwordlist = set_case_trans(case_trans, wordlist)
 
   # Separators
- if len(separators) > 1:
-   separator = get_separator(separators)
- elif len(separators) == 1:
-   separator = separators
- else:
-   separator = ""
+  if len(separators) > 1:
+    separator = get_separator(separators)
+  elif len(separators) == 1:
+    separator = separators
+  else:
+    separator = ""
 
+  # Padding Digits
+  padnumpre = ""
+  padnumpost = ""
+  if pad_digits_pre > 0:
+    padnumpre = get_pad_digits(pad_digits_pre) + separator
+  if pad_digits_post > 0:
+    padnumpost = get_pad_digits(pad_digits_post)
+  # Padding Characters
+  if len(padding_chars) > 1:
+    padchar = get_pad_char(padding_chars)
+  elif len(padding_chars) == 1:
+    padchar = padding_chars
+  else:
+    padchar = ""
+
+  # Padding Type
+  padpre = ""
+  padpost = ""
+  if padding_type == 'fixed':
+    if padding_chars_pre != 0:
+      count = 0
+      while count < padding_chars_pre:
+        padpre = padpre + padchar
+        count += 1
+    if padding_chars_post != 0:
+      count = 0
+      while count < padding_chars_post:
+        padpost = padpost + padchar
+        count += 1
+
+  # Genrate the outword now before adapt padding
+  tempout = ""
+  rounds = len(transwordlist)
+  count = 0
+  while count < rounds:
+    tempout = tempout + transwordlist[count] + separator
+    count += 1
+  tempout = padpre + padnumpre + tempout + padnumpost + padpost
+
+  # padding_type == 'adapt'
+  if padding_type == 'adapt':
+    padpost=""
+    curlength = len(tempout)
+    if curlength < pad_to_length:
+      rounds = (pad_to_length - curlength)
+      count = 0
+      while count < rounds:
+        padpost = padpost + padchar
+        count += 1
+    tempout = tempout + padpost
+  print(tempout)
