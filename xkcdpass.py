@@ -266,6 +266,17 @@ if args.padcharspost:
 
 pcount = 1
 while pcount <= passcount:
+
+  # Wordlist
   wordlist = get_wordlist(dictionary, word_len_min, word_len_max, num_words)
   pcount += 1
   transwordlist = set_case_trans(case_trans, wordlist)
+
+  # Separators
+ if len(separators) > 1:
+   separator = get_separator(separators)
+ elif len(separators) == 1:
+   separator = separators
+ else:
+   separator = ""
+
