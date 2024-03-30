@@ -42,7 +42,7 @@ def set_template_vals(template):
       word_len_min       = 4
       word_len_max       = 6
       case_trans         = "capitalize"
-      separators         = "none"
+      separators         = ""
       pad_digits_pre     = 2
       pad_digits_post    = 0
       padding_type       = "fixed"
