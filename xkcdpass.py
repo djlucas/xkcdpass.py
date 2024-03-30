@@ -6,7 +6,7 @@ import math
 import sys
 
 VERBOSE = False
-DEBUG = False
+DEBUG  = False
 ENTROPY = []
 
 def set_template_vals(template):
@@ -420,3 +420,4 @@ if VERBOSE == True:
   maxe = ENTROPY[top]
   avge = sum(ENTROPY) / len(ENTROPY)
   print("Entorpy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
+
