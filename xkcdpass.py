@@ -2,7 +2,6 @@
 import random
 import os
 import argparse
-import re
 import math
 import sys
 
@@ -140,13 +139,13 @@ def get_wordlist(dictionary, word_len_min, word_len_max, num_words):
     sys.stderr.write("ERROR:The minimum length cannot be 0\n")
     sys.exit(1)
   words = []
-  regexp = re.compile("^{0}{{{1},{2}}}$".format('.', word_len_min, word_len_max))
   with open(dictionary) as wordlist:
     for line in wordlist:
       new_word = line.strip()
-      # Annoying, but go back and sanitize later, this works for English
       if not "'" in new_word:
-        words.append(new_word)
+        if len(new_word) <= word_len_max:
+          if len(new_word) >= word_len_min:
+            words.append(new_word)
   wordlist = random.choices(words, k = num_words)
   return wordlist
 
