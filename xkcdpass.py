@@ -165,8 +165,7 @@ def get_cryto_vlaue(passwd):
         uniq.append(symbol)
     possible_symbols = int(possible_symbols) + int(len(uniq))
   length = len(passwd)
-  bits = math.log2(possible_symbols ** length)
-  strength = round(bits)
+  strength = round(math.log2( possible_symbols ** length ))
   return strength
 
 def get_min_crypto_values():
@@ -459,7 +458,7 @@ while pcount <= passcount:
         count += 1
     tempout = tempout + padpost
   print(tempout)
-  if VERBOSE == True:
+  if VERBOSE == True or SHOW_STRENGTH == True:
     entropy = get_cryto_vlaue(tempout)
     if DEBUG == True:
       sys.stderr.write("Entropy: " + str(entropy) + " bits\n\n")
