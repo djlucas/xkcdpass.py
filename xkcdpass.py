@@ -470,7 +470,7 @@ if VERBOSE == True or SHOW_STRENGTH == True:
   mine = ENTROPY[0]
   maxe = ENTROPY[top]
   avge = sum(ENTROPY) / len(ENTROPY)
-  print("\nEntorpy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
+  print("\nEntropy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
 
 if SHOW_STRENGTH == True:
   strength = get_min_crypto_values()
