@@ -5,8 +5,9 @@ import argparse
 import math
 import sys
 
+DEBUG = False
 VERBOSE = False
-DEBUG   = False
+SHOW_STRENGTH = False
 ENTROPY = []
 
 def set_template_vals(template):
@@ -168,6 +169,51 @@ def get_cryto_vlaue(passwd):
   strength = round(bits)
   return strength
 
+def get_min_crypto_values():
+  if case_trans == 'upper' or case_trans == 'lower':
+    letter_syms = 26 ** ( num_words * word_len_min )
+  if case_trans == 'capitalize':
+    lower_syms = 26 ** (( num_words * word_len_min ) - num_words )
+    upper_syms = 26 ** num_words
+    letter_syms = lower_syms + upper_syms
+  if case_trans == 'alternating':
+    num_words_upper = int( num_words / 2 )
+    if ( num_words % 2 ) == 0:
+      num_words_lower = num_words_upper
+    else:
+      num_words_lower = num_words_upper + 1
+    lower_syms = 26 ** ( num_words_lower * word_len_min )
+    upper_syms = 26 ** ( num_words_upper * word_len_min )
+    letter_syms = lower_syms + upper_syms
+  # We don't know what's in the dictionary, lump as-is with random
+  if case_trans == 'random' or case_trans == 'as-is':
+    letter_syms = 52 ** ( num_words * word_len_min )
+  if pad_digits_pre != 0 or pad_digits_post != 0:
+    digit_syms = 10 ** ( pad_digits_pre + pad_digits_post )
+  num_syms = len(separators)
+  if num_syms == 1:
+    sepr_syms = 1
+  else:
+    count_syms = num_words
+    if pad_digits_pre != 0:
+      count_syms = count_syms + 1
+    if pad_digits_post != 0:
+      count_syms = count_syms + 1
+    sepr_syms = num_syms ** count_syms
+  num_pads = len(padding_chars)
+  if padding_type == 'fixed':
+    if padding_chars_pre != 0 or padding_chars_post != 0:
+      pad_syms = num_pads ** ( padding_chars_pre + padding_chars_post )
+    else:
+      pad_syms = 0
+  else:
+    # fixed
+    min_pw_len = ( num_words * word_len_min ) + pad_digits_pre + pad_digits_post
+    pad_syms = num_pads ** ( pad_to_length - min_pw_len )
+  total_syms = letter_syms + digit_syms + sepr_syms + pad_syms
+  strength = round(math.log2( total_syms ))
+  return strength
+
 parser = argparse.ArgumentParser( prog = 'xkcdpass.py',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description = '''xkcdpass.py uses a dictionary to generate stong but memorable passwords.''',
@@ -262,6 +308,9 @@ parser.add_argument("-v", "--verbose",
 parser.add_argument("-D", "--debug",
                     help="Print debug messages to stderr.",
                     action="store_true")
+parser.add_argument("-S", "--strength",
+                    help="Show minimum entropy if attacker knows scheme.",
+                    action="store_true")
 args = parser.parse_args()
 
 if args.dictionary:
@@ -321,6 +370,9 @@ if args.verbose:
 
 if args.debug:
   DEBUG = True
+
+if args.strength:
+  SHOW_STRENGTH = True
 
 if DEBUG == 1:
   sys.stderr.write("Selected dictionary is: " + dictionary + ".\n")
@@ -413,12 +465,16 @@ while pcount <= passcount:
       sys.stderr.write("Entropy: " + str(entropy) + " bits\n\n")
     ENTROPY.append(entropy)
 
-if VERBOSE == True:
+if VERBOSE == True or SHOW_STRENGTH == True:
   top = int(len(ENTROPY)) - 1
   ENTROPY.sort()
   mine = ENTROPY[0]
   maxe = ENTROPY[top]
   avge = sum(ENTROPY) / len(ENTROPY)
-  print("Entorpy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
+  print("\nEntorpy: min " + str(mine) + " bits, max " + str(maxe) + " bits, avg " + str(round(avge)) + " bits.")
+
+if SHOW_STRENGTH == True:
+  strength = get_min_crypto_values()
+  print("Minimum " + str(strength) + " bits of entropy (if attacker knows the scheme).")
 
 # End
